@@ -1,5 +1,5 @@
 import pyshark
-iface_name = 'eth0'
+
 import socket
 print("Write the URL to request")
 host = input()
