@@ -5,14 +5,14 @@ import click
 
 @click.command()
 @click.option("-h", "--host", prompt=True)
-@click.option("-p", "--port-pepe", type=int, prompt=True, default=80)
+@click.option("-p", "--port", type=int, prompt=True, default=80)
 def cli(host, port):
     iface_name = 'eth0'
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as yacurl:
         yacurl.connect((host , port))
         print(f'connected to {host} by port {port}')
-        request = "GET / HTTP/1.1\r\nHost:%s\r\nAccept: text/html\r\nConnection: close\r\n\r\n" % host
+        request = f"GET / HTTP/1.1\r\nHost:{host}\r\nAccept: text/html\r\nConnection: close\r\n\r\n"
         yacurl.sendall(request.encode())
         #yacurl.sendall(b"GET / HTTP/1.1\r\nHost: www.google.com\r\nAccept: text/html\r\nConnection: close\r\n\r\n")
 
