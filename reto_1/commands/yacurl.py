@@ -13,15 +13,18 @@ def cli(host, port):
         yacurl.connect((host , port))
         print(f'connected to {host} by port {port}')
         request = f"GET / HTTP/1.1\r\nHost:{host}\r\nAccept: text/html\r\nConnection: close\r\n\r\n"
-        yacurl.sendall(request.encode())
+        yacurl.sendall(request.encode("utf-8"))
         #yacurl.sendall(b"GET / HTTP/1.1\r\nHost: www.google.com\r\nAccept: text/html\r\nConnection: close\r\n\r\n")
 
         while True:
             response = yacurl.recv(4096)
-            capture = pyshark.LiveCapture(interface=iface_name, bpf_filter='')
+            capture = pyshark.LiveCapture(interface=iface_name, bpf_filter=port)
             capture.packets_from_tshark
             print(f'capturado: {capture}')
             if not response:
                 break
 
-            print(response.decode())
+            response = response.decode("utf-8")
+            with open("mi_archivito.html", "w") as f:
+                f.write(response)
+            
