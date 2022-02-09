@@ -8,6 +8,7 @@ import click
 @click.option("-p", "--port", type=int, prompt=True, default=80)
 def cli(host, port):
     iface_name = 'eth0'
+    capture = pyshark.LiveCapture(interface=iface_name, bpf_filter=port)
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as yacurl:
         yacurl.connect((host , port))
@@ -18,7 +19,6 @@ def cli(host, port):
 
         while True:
             response = yacurl.recv(4096)
-            capture = pyshark.LiveCapture(interface=iface_name, bpf_filter=port)
             capture.packets_from_tshark
             print(f'capturado: {capture}')
             if not response:
