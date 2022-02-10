@@ -1,5 +1,6 @@
-from email.policy import default
 import socket
+from email.policy import default
+from urllib import request
 import click
 
 @click.command()
@@ -30,7 +31,3 @@ def cli(host, port):
     sock.close()
     print(response.decode())
     print("---------------------------End of Connection----------------------------------------")
-            # with open("mi_archivito.html", "wb") as f:
-            #     f.write(response)
-
-            
