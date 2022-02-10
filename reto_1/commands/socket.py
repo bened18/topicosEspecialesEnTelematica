@@ -29,5 +29,5 @@ def cli(host, port):
             break
         response = response + chunk
     sock.close()
-    print(response.decode())
+    print(response.decode('latin-1'))
     print("---------------------------End of Connection----------------------------------------")
