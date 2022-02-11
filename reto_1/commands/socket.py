@@ -2,12 +2,15 @@ import socket
 from email.policy import default
 from urllib import request
 import click
+import pyshark
 
 @click.command()
 @click.option("-h", "--host", prompt=True)
 @click.option("-p", "--port", type=int, prompt=True, default=80)
 def cli(host, port):
-
+    traffic = pyshark.LiveCapture(interface='eth0')
+    traffic_tshark = traffic.packets_from_tshark
+    traffic.sniff(timeout=10)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(10)  # In seconds. Choose a value that makes sense to you
     sock.connect((host, port))
@@ -31,3 +34,7 @@ def cli(host, port):
     sock.close()
     print(response.decode('latin-1'))
     print("---------------------------End of Connection----------------------------------------")
+    print("---------------------------Capturing traffic----------------------------------------")
+    print('trafico capturado---->')
+    print(traffic_tshark)
+    print("---------------------------Traffic Captured----------------------------------------")

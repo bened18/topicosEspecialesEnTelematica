@@ -28,9 +28,10 @@ def cli(host, port):
             break
         response = response + chunk
     sock.close()
-    print(response.decode('latin-1'))
+    response_decode = response.decode('latin-1')
+    print(response_decode)
     print("---------------------------End of Connection----------------------------------------")
-            # with open("mi_archivito.html", "wb") as f:
-            #     f.write(response)
+    with open("parsing.html", "w") as file:
+        file.write(response_decode)
 
             
