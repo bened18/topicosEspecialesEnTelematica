@@ -49,8 +49,7 @@ def cli(host, port):
 
     sock.close()                                               # Connection closed
 
-    response_decode = response.decode('latin-1')
-    # We decode the response from bytes to latin-1
+    response_decode = response.decode('latin-1')               # We decode the response from bytes to latin-1
 
 
     with open("reto_1/responses/parsing.html", "w") as file:
