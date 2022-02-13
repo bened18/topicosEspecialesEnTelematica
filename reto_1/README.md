@@ -3,6 +3,7 @@ Yacurl se creó con la finalidad de estudiar la comunicación de dos procesos / 
 Utilizaremos Sockets como mecanismo de comunicación para el cliente yacurl y un Web Service cualquiera.
 
 Pasos para utilizar el cliente yacurl:
+    
     1. Instalar todas las librerías del archivo "requirements.txt"
     
     2. Puede ejecutar yacurl de 3 formas en una terminal:
