@@ -30,19 +30,37 @@ def cli(host, port):
 
     context = ssl.create_default_context()
 
-    sent = 0
+    sent = 0    
 
-    with socket.create_connection((host, port)) as sock:
-        with context.wrap_socket(sock, server_hostname=host) as yacurl:
-            while sent < len(package):
-                sent = sent + yacurl.send(package[sent:])
-            response = b""
+    if port == 80:
+        print("holaaaa socket 80")
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Family and type of socket
+        sock.connect((host, port))                               # Stableshing connection to host and port given
 
-            while True:
-                chunk = yacurl.recv(4096)
-                if ( len(chunk) == 0 ) :
-                    break
-                response = response + chunk   
+        while sent < len(package):
+            sent = sent + sock.send(package[sent:])              # This is to asure that we are not losing sent packages
+        response = b""
+
+        while True:
+            chunk = sock.recv(4096)
+            if len(chunk) == 0:                                   # If no more data received, quitting
+                break
+            response = response + chunk
+
+        sock.close() 
+    else:
+        print("holaaaa socket 443")
+        with socket.create_connection((host, port)) as sock:
+            with context.wrap_socket(sock, server_hostname=host) as yacurl:
+                while sent < len(package):
+                    sent = sent + yacurl.send(package[sent:])
+                response = b""
+
+                while True:
+                    chunk = yacurl.recv(4096)
+                    if ( len(chunk) == 0 ) :
+                        break
+                    response = response + chunk   
 
     response_decode = response.decode('latin-1')
 
