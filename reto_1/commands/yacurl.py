@@ -25,7 +25,7 @@ def cli(host, port):
     capture_process.start()
     sleep(1)
 
-    message = f"GET / HTTP/1.1\r\nHost: {host}\r\nAccept: */*\r\nOrigin: https://{host}\r\nConnection: close\r\n\r\n"
+    message = f"GET / HTTP/1.1\r\nHost: {host}\r\nAccept: text/html\r\nOrigin: https://{host}\r\nConnection: close\r\n\r\n"
     package = message.encode('utf-8')
 
     context = ssl.create_default_context()
@@ -33,7 +33,6 @@ def cli(host, port):
     sent = 0    
 
     if port == 80:
-        print("holaaaa socket 80")
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Family and type of socket
         sock.connect((host, port))                               # Stableshing connection to host and port given
 
@@ -49,7 +48,6 @@ def cli(host, port):
 
         sock.close() 
     else:
-        print("holaaaa socket 443")
         with socket.create_connection((host, port)) as sock:
             with context.wrap_socket(sock, server_hostname=host) as yacurl:
                 while sent < len(package):
